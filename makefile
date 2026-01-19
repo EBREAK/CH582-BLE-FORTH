@@ -55,6 +55,7 @@ LIBS += \
 SRCS += \
 	app/main.c \
 	app/debug.c \
+	app/exception.c \
 
 INCS += \
 	-I app/ \
