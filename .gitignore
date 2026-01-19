@@ -1,0 +1,9 @@
+*~
+*.bin
+*.elf
+*.hex
+*.dis
+*.map
+EVT/
+.cache/
+compile_commands.json
