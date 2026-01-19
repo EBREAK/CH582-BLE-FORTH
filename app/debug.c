@@ -14,3 +14,12 @@ void debug_puts(char *s)
 		s += 1;
 	}
 }
+char num2hex_lut[] = "0123456789ABCDEF";
+void debug_puthex(uint32_t n)
+{
+	int shi = 28;
+	while (shi >= 0) {
+		debug_putc(num2hex_lut[(n >> shi) & 0xF]);
+		shi -= 4;
+	}
+}
