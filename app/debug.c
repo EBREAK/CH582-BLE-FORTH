@@ -3,9 +3,11 @@
 
 void debug_putc(uint8_t c)
 {
+#if (DEBUG == Debug_UART1)
 	while (R8_UART1_TFC >= UART_FIFO_SIZE)
 		;
 	R8_UART1_THR = c;
+#endif
 }
 void debug_puts(char *s)
 {
