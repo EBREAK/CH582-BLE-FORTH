@@ -31,7 +31,7 @@ int main(void)
 	debug_puts("RESET REASON: ");
 	debug_puthex(R8_RESET_STATUS & RB_RESET_FLAG);
 	debug_puts("\r\n");
-	debug_puts("FORTH ON CH582\r\n");
 	kpram_init();
+	debug_puts("FORTH ON CH582\r\n");
 	Main_Circulation();
 }
