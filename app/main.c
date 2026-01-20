@@ -1,6 +1,8 @@
 #include "HAL.h"
 #include "config.h"
 #include "debug.h"
+#include "kpram.h"
+#include "crc.h"
 
 __attribute__((aligned(4))) uint32_t MEM_BUF[BLE_MEMHEAP_SIZE / 4];
 
@@ -25,6 +27,11 @@ int main(void)
 #endif
 	CH58X_BLEInit();
 	HAL_Init();
+	crc_selftest();
+	debug_puts("RESET REASON: ");
+	debug_puthex(R8_RESET_STATUS & RB_RESET_FLAG);
+	debug_puts("\r\n");
 	debug_puts("FORTH ON CH582\r\n");
+	kpram_init();
 	Main_Circulation();
 }

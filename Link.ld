@@ -7,7 +7,8 @@ PROVIDE( _stack_size = __stack_size );
 MEMORY
 {
 	FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 256K
-	RAM (xrw) : ORIGIN = 0x20002000, LENGTH = 24K
+	RAM (xrw)  : ORIGIN = 0x20002000, LENGTH = 20K
+	KPRAM (rw) : ORIGIN = 0x20007000, LENGTH = 2K
 }
 
     PROVIDE( __global_pointer$ = 0x20002000 );
@@ -175,7 +176,10 @@ SECTIONS
         PROVIDE(_susrstack = . );
         . = . + __stack_size;
         PROVIDE( _eusrstack = .);
-    } >RAM 
+    } >RAM
+
+    PROVIDE(__kpram_start = ORIGIN(KPRAM));
+    PROVIDE(__kpram_end = ORIGIN(KPRAM) + LENGTH(KPRAM));
 }
 
 

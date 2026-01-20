@@ -56,6 +56,8 @@ SRCS += \
 	app/main.c \
 	app/debug.c \
 	app/exception.c \
+	app/kpram.c \
+	app/crc.c \
 
 INCS += \
 	-I app/ \
