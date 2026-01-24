@@ -4,10 +4,10 @@
 #include <stdint.h>
 
 struct fifo8 {
-	uint8_t *data;
-	uint32_t capacity;
-	uint32_t head;
-	uint32_t num;
+	volatile uint8_t *data;
+	volatile uint32_t capacity;
+	volatile uint32_t head;
+	volatile uint32_t num;
 };
 
 #define FIFO8_INIT(CAPACITY)           \
