@@ -59,6 +59,7 @@ SRCS += \
 	app/kpram.c \
 	app/crc.c \
 	app/usbdev.c \
+	app/fifo.c \
 
 INCS += \
 	-I app/ \

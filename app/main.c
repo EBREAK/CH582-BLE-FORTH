@@ -4,6 +4,7 @@
 #include "kpram.h"
 #include "crc.h"
 #include "usbdev.h"
+#include "fifo.h"
 
 __attribute__((aligned(4))) uint32_t MEM_BUF[BLE_MEMHEAP_SIZE / 4];
 
@@ -29,6 +30,7 @@ int main(void)
 	CH58X_BLEInit();
 	HAL_Init();
 	crc_selftest();
+	fifo_selftest();
 	debug_puts("RESET REASON: ");
 	debug_puthex(R8_RESET_STATUS & RB_RESET_FLAG);
 	debug_puts("\r\n");
