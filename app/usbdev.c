@@ -1,10 +1,28 @@
 #include "usbdev.h"
 #include "CH58x_common.h"
 #include "debug.h"
+#include "fifo.h"
+
+#include <assert.h>
+
+volatile struct fifo8 usbdev_acm_forth_d2h_fifo = FIFO8_INIT(128);
+volatile struct fifo8 usbdev_acm_forth_h2d_fifo = FIFO8_INIT(128);
+volatile bool usbdev_acm_forth_h2d_disable = false;
+
+volatile struct fifo8 usbdev_acm_data_d2h_fifo = FIFO8_INIT(256);
+volatile struct fifo8 usbdev_acm_data_h2d_fifo = FIFO8_INIT(256);
+volatile bool usbdev_acm_data_h2d_disable = false;
 
 uint8_t *pEP5_RAM_Addr; //ep5_out(64)+ep5_in(64)
 uint8_t *pEP6_RAM_Addr; //ep6_out(64)+ep6_in(64)
 uint8_t *pEP7_RAM_Addr; //ep7_out(64)+ep7_in(64)
+
+#define pEP5_OUT_DataBuf (pEP5_RAM_Addr)
+#define pEP5_IN_DataBuf (pEP5_RAM_Addr + 64)
+#define pEP6_OUT_DataBuf (pEP6_RAM_Addr)
+#define pEP6_IN_DataBuf (pEP6_RAM_Addr + 64)
+#define pEP7_OUT_DataBuf (pEP7_RAM_Addr)
+#define pEP7_IN_DataBuf (pEP7_RAM_Addr + 64)
 
 void DevEP5_OUT_Deal(uint8_t l);
 void DevEP6_OUT_Deal(uint8_t l);
@@ -736,6 +754,23 @@ void DevEP1_OUT_Deal(uint8_t l)
  */
 void DevEP2_OUT_Deal(uint8_t l)
 { /* 用户可自定义 */
+	int space_avail;
+	space_avail = fifo8_num_free(&usbdev_acm_forth_h2d_fifo);
+	assert(space_avail >= 64);
+	assert(usbdev_acm_forth_h2d_disable == false);
+
+	fifo8_push_all(&usbdev_acm_forth_h2d_fifo, pEP2_OUT_DataBuf, l);
+	space_avail = fifo8_num_free(&usbdev_acm_forth_h2d_fifo);
+
+#if 1
+	debug_puts("USBDEV: EP2 OUT 0x");
+	debug_puthex(l);
+	debug_puts(" BYTES\r\n");
+#endif
+	if (space_avail < 64) {
+		debug_puts("USBDEV: EP2 FLOW CONTROL TRIG\r\n");
+		R8_UEP2_CTRL = UEP_R_RES_NAK;
+	}
 }
 
 /*********************************************************************
@@ -766,6 +801,23 @@ void DevEP5_OUT_Deal(uint8_t l)
 
 void DevEP6_OUT_Deal(uint8_t l)
 { /* 用户可自定义 */
+	int space_avail;
+	space_avail = fifo8_num_free(&usbdev_acm_data_h2d_fifo);
+	assert(space_avail >= 64);
+	assert(usbdev_acm_data_h2d_disable == false);
+
+	fifo8_push_all(&usbdev_acm_data_h2d_fifo, pEP6_OUT_DataBuf, l);
+	space_avail = fifo8_num_free(&usbdev_acm_data_h2d_fifo);
+
+#if 1
+	debug_puts("USBDEV: EP6 OUT 0x");
+	debug_puthex(l);
+	debug_puts(" BYTES\r\n");
+#endif
+	if (space_avail < 64) {
+		debug_puts("USBDEV: EP6 FLOW CONTROL TRIG\r\n");
+		R8_UEP6_CTRL = UEP_R_RES_NAK;
+	}
 }
 
 void DevEP7_OUT_Deal(uint8_t l)
