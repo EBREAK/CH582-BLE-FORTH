@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "kpram.h"
 #include "crc.h"
+#include "usbdev.h"
 
 __attribute__((aligned(4))) uint32_t MEM_BUF[BLE_MEMHEAP_SIZE / 4];
 
@@ -32,6 +33,7 @@ int main(void)
 	debug_puthex(R8_RESET_STATUS & RB_RESET_FLAG);
 	debug_puts("\r\n");
 	kpram_init();
+	usbdev_init();
 	debug_puts("FORTH ON CH582\r\n");
 	Main_Circulation();
 }

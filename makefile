@@ -58,6 +58,7 @@ SRCS += \
 	app/exception.c \
 	app/kpram.c \
 	app/crc.c \
+	app/usbdev.c \
 
 INCS += \
 	-I app/ \
