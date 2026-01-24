@@ -20,6 +20,7 @@ CFLAGS += \
 	-Wno-unused-variable \
 	-Wno-unused-parameter \
 	-Wno-pointer-to-int-cast \
+	-Wno-discarded-qualifiers \
 	-Os -ggdb \
 	-march=rv32imac_zicsr_zifencei \
 	-mabi=ilp32 \
