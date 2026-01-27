@@ -1,0 +1,9 @@
+#ifndef _FORTH_DEFS_H_
+#define _FORTH_DEFS_H_
+
+#define FORTH_STACK_DEPTH 24
+#define FORTH_TOS_INIT 0xDEADBEEF
+#define FORTH_TRUE 0xFFFFFFFF
+#define FORTH_FALSE 0x00000000
+
+#endif

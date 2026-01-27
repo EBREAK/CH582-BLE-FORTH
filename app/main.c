@@ -5,6 +5,7 @@
 #include "crc.h"
 #include "usbdev.h"
 #include "fifo.h"
+#include "forth.h"
 
 __attribute__((aligned(4))) uint32_t MEM_BUF[BLE_MEMHEAP_SIZE / 4];
 
@@ -36,6 +37,8 @@ int main(void)
 	debug_puts("\r\n");
 	kpram_init();
 	usbdev_init();
+	forth_init();
+	forth_selftest();
 	debug_puts("FORTH ON CH582\r\n");
 	Main_Circulation();
 }

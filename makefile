@@ -61,6 +61,8 @@ SRCS += \
 	app/crc.c \
 	app/usbdev.c \
 	app/fifo.c \
+	app/forth.c \
+	app/forth_dict.S \
 
 INCS += \
 	-I app/ \
