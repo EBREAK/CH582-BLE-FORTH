@@ -26,7 +26,8 @@ CFLAGS += \
 	-mabi=ilp32 \
 	-pipe -nostartfiles \
 	-Xlinker --gc-sections \
-	-T $(LINK_SCRIPT)
+	-T $(LINK_SCRIPT) \
+	--specs=nano.specs \
 
 SRCS += \
 	$(CH583_SDK)/SRC/RVMSIS/core_riscv.c \
@@ -92,6 +93,8 @@ patch:
 		$(CH583_SDK)/BLE/HAL/include/SLEEP.h
 	sed -i -e 's/CH58xBLE_ROM.H/CH58xBLE_ROM.h/g' \
 		$(CH583_SDK)/BLE/HAL/include/config.h
+	sed -i -e 's/ptrdiff_t/int32_t/g' \
+		$(CH583_SDK)/SRC/StdPeriphDriver/CH58x_sys.c 
 
 ocd:
 	openocd-wch -f wch-riscv.cfg
